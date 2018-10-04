@@ -12,7 +12,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jndi.JndiTemplate;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -27,6 +26,15 @@ public class HibernateConfiguration {
     @Autowired
     private Environment env;
     
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() throws IllegalStateException, NamingException {
+    	LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setPackagesToScan("com.authserver.model");
+        sessionFactory.setHibernateProperties(hibernateProperties());
+        return sessionFactory;
+    }
+    
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
@@ -35,28 +43,11 @@ public class HibernateConfiguration {
         properties.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("hibernate.hbm2ddl.auto"));
         return properties;
     }
-
-    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-    	LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.authserver.model");
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        return sessionFactory;
-     }
     
     /* DataSource using JNDI */
     @Bean
-    public DataSource dataSource() {
-    	DataSource ds = null;
-    	try {
-			ds = (DataSource) new JndiTemplate().lookup(env.getRequiredProperty("jdbc.jndi.url"));
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-    	return ds;
+    public DataSource dataSource() throws IllegalStateException, NamingException {
+    	return (DataSource) new JndiTemplate().lookup(env.getRequiredProperty("jdbc.jndi.url"));
     }
     
 	@Bean
