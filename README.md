@@ -5,7 +5,7 @@ We’ll declare our datasource in <tomcat_home>/conf/server.xml file inside the 
 
 Assuming that the database server is running on the same machine as the application container, and that the intended database is named authserver, and that the username is root with empty password, a resource would look like this:
 
-### server.xml
+### conf/server.xml
 ```
 <Resource name="jdbc/HouwaeyDB"
 	auth="Container"
@@ -29,7 +29,7 @@ auth=”Container” – means that the container will be signing on to the reso
 maxActive, maxIdle, and maxWait – are pool connection’s configuration parameters
 We must also define a ResourceLink inside the <Context> element in <tomcat_home>/conf/context.xml, which would look like:
 
-### context.xml
+### conf/context.xml
 ```
 <ResourceLink
         name="jdbc/HouwaeyDB"
