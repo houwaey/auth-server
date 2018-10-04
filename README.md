@@ -7,7 +7,7 @@ Assuming that the database server is running on the same machine as the applicat
 
 ### conf/server.xml
 ```
-<Resource name="jdbc/HouwaeyDB"
+<Resource name="jdbc/AuthServerDB"
 	auth="Container"
 	type="javax.sql.DataSource"
 	driverClassName="com.mysql.jdbc.Driver"
@@ -19,7 +19,7 @@ Assuming that the database server is running on the same machine as the applicat
 	maxWait="-1"/>
 ```   
  
-Take note that we’ve named our resource jdbc/HouwaeyDB. This will be the name to be used when referencing this datasource.
+Take note that we’ve named our resource jdbc/AuthServerDB. This will be the name to be used when referencing this datasource.
 
 We’ve also had to specify its type and database driver’s class name. For it to work, you must also place the corresponding jar in <tomcat_home>/lib/ (in this case, mysql-connector-java-5.1.28.jar).
 
@@ -32,8 +32,8 @@ We must also define a ResourceLink inside the <Context> element in <tomcat_home>
 ### conf/context.xml
 ```
 <ResourceLink
-        name="jdbc/HouwaeyDB"
-        global="jdbc/HouwaeyDB"
+        name="jdbc/AuthServerDB"
+        global="jdbc/AuthServerDB"
         type="javax.sql.DataSource"/>
 ```
   
