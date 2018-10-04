@@ -3,7 +3,7 @@
 ## Declaring the Datasource on the Application Container
 We’ll declare our datasource in <tomcat_home>/conf/server.xml file inside the <GlobalNamingResources> element.
 
-Assuming that the database server is running on the same machine as the application container, and that the intended database is named authserver, and that the username is root with password empty/null, a resource would look like this:
+Assuming that the database server is running on the same machine as the application container, and that the intended database is named authserver, and that the username is root with empty password, a resource would look like this:
 
 ### server.xml
 ```
